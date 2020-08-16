@@ -33,6 +33,7 @@ dependencies {
     testCompileOnly 'org.projectlombok:lombok:1.18.12'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
     testImplementation 'io.qameta.allure:allure-selenide:2.13.0'
+    testImplementation 'commons-dbutils:commons-dbutils:1.7'
 }
 
 test {
