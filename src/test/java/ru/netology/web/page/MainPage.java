@@ -9,7 +9,6 @@ import static com.codeborne.selenide.Selenide.$$;
 
 public class MainPage {
     private static SelenideElement paymentButton = $$("button").find(Condition.exactText("Купить"));
-    ;
     private static SelenideElement creditButton = $$("button").find(Condition.exactText("Купить в кредит"));
     private static SelenideElement payCard = $$("h3[class]").find(exactText("Оплата по карте"));
     private static SelenideElement payCredit = $$("h3[class]").find(exactText("Кредит по данным карты"));

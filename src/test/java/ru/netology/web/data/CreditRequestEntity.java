@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreditRequestEntity {
     private String id;
-    private String bankId;
+    private String bank_id;
     private String created;
-    private boolean status;
+    private String status;
 }
