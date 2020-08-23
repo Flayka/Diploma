@@ -15,6 +15,7 @@ import ru.netology.web.page.PaymentPage;
 import static com.codeborne.selenide.Selenide.open;
 import static java.lang.Thread.sleep;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class TravelBuyTest {
     MainPage mainPage = new MainPage();
@@ -35,7 +36,7 @@ class TravelBuyTest {
     @AfterAll
     static void CleanAllTables() {
         SelenideLogger.removeListener("allure");
- //       DataHelper.DataSQL.cleanTables();
+        DataHelper.DataSQL.cleanTables();
     }
 
     //PayTests
@@ -60,7 +61,7 @@ class TravelBuyTest {
         mainPage.openPayPage();
         DataCard card = DataHelper.getDeclinedCard();
         paymentPage.fillInCard(card);
-        paymentPage.showNotificationApprove();
+        paymentPage.showNotificationDecline(); //Issue
 
         sleep(10000);
         val actual = DataHelper.DataSQL.getPaymentStatus();
@@ -149,12 +150,15 @@ class TravelBuyTest {
     }
 
     @Test
-    void shouldPayOwnerErrorCard() {
+    void shouldPayOwnerErrorCard() throws InterruptedException {
         mainPage.openPayPage();
         DataCard card = DataHelper.getWrongOwnerCard();
         paymentPage.fillInCard(card);
-        String actual = paymentPage.checkCardOwnerError(); //Issue
-        assertEquals("Неверный формат!!!", actual);
+        String actualError = paymentPage.checkCardOwnerError(); //Issue
+        assertEquals("Неверный формат", actualError);
+        sleep(10000);
+        val actual = DataHelper.DataSQL.getPaymentStatus();
+        assertNull(actual); //Issue
     }
 
     @Test
@@ -162,7 +166,7 @@ class TravelBuyTest {
         mainPage.openPayPage();
         DataCard card = DataHelper.getEmptyOwnerCard();
         paymentPage.fillInCard(card);
-        String actual = paymentPage.checkCardCVCError();
+        String actual = paymentPage.checkCardOwnerError();
         assertEquals("Поле обязательно для заполнения", actual);
     }
 
@@ -197,7 +201,7 @@ class TravelBuyTest {
         mainPage.openCreditPage();
         DataCard card = DataHelper.getDeclinedCard();
         paymentPage.fillInCard(card);
-        paymentPage.showNotificationApprove();
+        paymentPage.showNotificationDecline(); //Issue
 
         sleep(10000);
         val actual = DataHelper.DataSQL.getCreditStatus();
