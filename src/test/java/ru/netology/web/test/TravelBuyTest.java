@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.web.data.DataCard;
 import ru.netology.web.data.DataHelper;
+import ru.netology.web.data.DataSQL;
 import ru.netology.web.pages.MainPage;
 import ru.netology.web.pages.PaymentPage;
 
@@ -36,7 +37,7 @@ class TravelBuyTest {
     @AfterAll
     static void CleanAllTables() {
         SelenideLogger.removeListener("allure");
-        DataHelper.DataSQL.cleanTables();
+        DataSQL.cleanTables();
     }
 
     //PayTests
@@ -48,11 +49,11 @@ class TravelBuyTest {
         paymentPage.showNotificationApprove();
 
         sleep(10000);
-        val actual = DataHelper.DataSQL.getPaymentStatus();
+        val actual = DataSQL.getPaymentStatus();
         assertEquals(approvedCard, actual);//
 
-        val paymentId = DataHelper.DataSQL.getPaymentId();
-        val paymentOrderId = DataHelper.DataSQL.getOrderPaymentId();
+        val paymentId = DataSQL.getPaymentId();
+        val paymentOrderId = DataSQL.getOrderPaymentId();
         assertEquals(paymentId, paymentOrderId);
     }
 
@@ -64,11 +65,11 @@ class TravelBuyTest {
         paymentPage.showNotificationDecline(); //Issue
 
         sleep(10000);
-        val actual = DataHelper.DataSQL.getPaymentStatus();
+        val actual = DataSQL.getPaymentStatus();
         assertEquals(declinedCard, actual);
 
-        val paymentId = DataHelper.DataSQL.getPaymentId();
-        val paymentOrderId = DataHelper.DataSQL.getOrderPaymentId();
+        val paymentId = DataSQL.getPaymentId();
+        val paymentOrderId = DataSQL.getOrderPaymentId();
         assertEquals(paymentId, paymentOrderId);
     }
 
@@ -79,8 +80,8 @@ class TravelBuyTest {
         paymentPage.fillInCard(card);
         paymentPage.showNotificationDecline();
 
-        val paymentOrderId = DataHelper.DataSQL.getOrderPaymentId();//
-        assertEquals(null, paymentOrderId);
+        val paymentOrderId = DataSQL.getOrderPaymentId();//
+        assertNull(paymentOrderId);
     }
 
     @Test
@@ -89,8 +90,8 @@ class TravelBuyTest {
         paymentPage.clickProceedButton();
         paymentPage.checkAllFieldErrorVisible();
 
-        val paymentOrderId = DataHelper.DataSQL.getOrderPaymentId();
-        assertEquals(null, paymentOrderId);
+        val paymentOrderId = DataSQL.getOrderPaymentId();
+        assertNull(paymentOrderId);
     }
 
     @Test
@@ -105,8 +106,8 @@ class TravelBuyTest {
         paymentPage.showNotificationApprove();
 
         sleep(10000);
-        val paymentId = DataHelper.DataSQL.getPaymentId();
-        val paymentOrderId = DataHelper.DataSQL.getOrderPaymentId();
+        val paymentId = DataSQL.getPaymentId();
+        val paymentOrderId = DataSQL.getOrderPaymentId();
         assertEquals(paymentId, paymentOrderId);
 
         paymentPage.checkAllFieldErrorInvisible(); // issue
@@ -157,7 +158,7 @@ class TravelBuyTest {
         String actualError = paymentPage.checkCardOwnerError(); //Issue
         assertEquals("Неверный формат", actualError);
         sleep(10000);
-        val actual = DataHelper.DataSQL.getPaymentStatus();
+        val actual = DataSQL.getPaymentStatus();
         assertNull(actual); //Issue
     }
 
@@ -188,11 +189,11 @@ class TravelBuyTest {
         paymentPage.showNotificationApprove();
 
         sleep(10000);
-        val actual = DataHelper.DataSQL.getCreditStatus();
+        val actual = DataSQL.getCreditStatus();
         assertEquals(approvedCard, actual);
 
-        val creditId = DataHelper.DataSQL.getCreditId();
-        val creditOrderId = DataHelper.DataSQL.getOrderCreditId();
+        val creditId = DataSQL.getCreditId();
+        val creditOrderId = DataSQL.getOrderCreditId();
         assertEquals(creditId, creditOrderId);
     }
 
@@ -204,10 +205,10 @@ class TravelBuyTest {
         paymentPage.showNotificationDecline(); //Issue
 
         sleep(10000);
-        val actual = DataHelper.DataSQL.getCreditStatus();
+        val actual = DataSQL.getCreditStatus();
         assertEquals(declinedCard, actual);
-        val creditId = DataHelper.DataSQL.getCreditId();
-        val creditOrderId = DataHelper.DataSQL.getOrderCreditId();
+        val creditId = DataSQL.getCreditId();
+        val creditOrderId = DataSQL.getOrderCreditId();
         assertEquals(creditId, creditOrderId);
     }
 
@@ -219,8 +220,8 @@ class TravelBuyTest {
         paymentPage.showNotificationDecline();
 
         sleep(10000);
-        val creditOrderId = DataHelper.DataSQL.getOrderCreditId();
-        assertEquals(null, creditOrderId);
+        val creditOrderId = DataSQL.getOrderCreditId();
+        assertNull(creditOrderId);
     }
 
     @Test
@@ -230,7 +231,7 @@ class TravelBuyTest {
         paymentPage.checkAllFieldErrorVisible();
 
         sleep(10000);
-        val creditOrderId = DataHelper.DataSQL.getOrderCreditId();
-        assertEquals(null, creditOrderId);
+        val creditOrderId = DataSQL.getOrderCreditId();
+        assertNull(creditOrderId);
     }
 }
