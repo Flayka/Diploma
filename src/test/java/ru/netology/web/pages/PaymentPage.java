@@ -1,5 +1,5 @@
 
-package ru.netology.web.page;
+package ru.netology.web.pages;
 
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
@@ -15,16 +15,16 @@ public class PaymentPage {
     private SelenideElement cardNumber = $("[placeholder='0000 0000 0000 0000']");
     private SelenideElement cardMonth = $("[placeholder='08']");
     private SelenideElement cardYear = $("[placeholder='22']");
-    private SelenideElement cardOwner = $("#root > div > form > fieldset > div:nth-child(3) > span > span:nth-child(1) > span > span > span.input__box > input");
+    private SelenideElement cardOwner = $(withText("Владелец")).parent().$(".input__box>input.input__control");
     private SelenideElement cardCVC = $("[placeholder='999']");
-    private SelenideElement proceedButton = $$("button[type='button'][role='button'] span.button__text").find(text("Продолжить"));
+    private SelenideElement proceedButton = $(withText("Продолжить"));
 
-    private ElementsCollection element = $$(".input_type_text");
-    private SelenideElement cardNumberError = element.get(0).find(".input__sub");
-    private SelenideElement cardMonthError = element.get(1).find(".input__sub");
-    private SelenideElement cardYearError = element.get(2).find(".input__sub");
-    private SelenideElement cardOwnerError = element.get(3).find(".input__sub");
-    private SelenideElement cardCVCError = element.get(4).find(".input__sub");
+    private ElementsCollection textInputFields = $$(".input_type_text");
+    private SelenideElement cardNumberError = textInputFields.get(0).find(".input__sub");
+    private SelenideElement cardMonthError = textInputFields.get(1).find(".input__sub");
+    private SelenideElement cardYearError = textInputFields.get(2).find(".input__sub");
+    private SelenideElement cardOwnerError = textInputFields.get(3).find(".input__sub");
+    private SelenideElement cardCVCError = textInputFields.get(4).find(".input__sub");
 
     private SelenideElement notificationApprove = $(withText("Операция одобрена Банком."));
     private SelenideElement notificationDecline = $(withText("Ошибка! Банк отказал в проведении операции."));
@@ -97,7 +97,7 @@ public class PaymentPage {
         cardCVC.sendKeys(Keys.LEFT_CONTROL + "a" + Keys.DELETE);
     }
 
-    public void allFieldErrorVisible() {
+    public void checkAllFieldErrorVisible() {
         cardNumberError.shouldBe(visible);
         cardMonth.shouldBe(visible);
         cardYear.shouldBe(visible);
@@ -105,7 +105,7 @@ public class PaymentPage {
         cardCVC.shouldBe(visible);
     }
 
-    public void allFieldErrorInvisible() {
+    public void checkAllFieldErrorInvisible() {
         cardNumberError.shouldBe(disappear);
         cardMonth.shouldBe(disappear);
         cardYear.shouldBe(disappear);

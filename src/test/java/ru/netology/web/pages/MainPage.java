@@ -1,4 +1,4 @@
-package ru.netology.web.page;
+package ru.netology.web.pages;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
@@ -13,12 +13,12 @@ public class MainPage {
     private static SelenideElement payCard = $$("h3[class]").find(exactText("Оплата по карте"));
     private static SelenideElement payCredit = $$("h3[class]").find(exactText("Кредит по данным карты"));
 
-    public static void openPayPage() {
+    public void openPayPage() {
         paymentButton.click();
         payCard.waitUntil(enabled, 15000);
     }
 
-    public static void openCreditPage() {
+    public void openCreditPage() {
         creditButton.click();
         payCredit.waitUntil(enabled, 15000);
     }

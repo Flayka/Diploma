@@ -9,8 +9,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.web.data.DataCard;
 import ru.netology.web.data.DataHelper;
-import ru.netology.web.page.MainPage;
-import ru.netology.web.page.PaymentPage;
+import ru.netology.web.pages.MainPage;
+import ru.netology.web.pages.PaymentPage;
 
 import static com.codeborne.selenide.Selenide.open;
 import static java.lang.Thread.sleep;
@@ -87,7 +87,7 @@ class TravelBuyTest {
     void shouldPayEmptyForm() {
         mainPage.openPayPage();
         paymentPage.clickProceedButton();
-        paymentPage.allFieldErrorVisible();
+        paymentPage.checkAllFieldErrorVisible();
 
         val paymentOrderId = DataHelper.DataSQL.getOrderPaymentId();
         assertEquals(null, paymentOrderId);
@@ -98,7 +98,7 @@ class TravelBuyTest {
         mainPage.openPayPage();
         DataCard incorrectCard = DataHelper.getUnrealCard();
         paymentPage.fillInIncorrectCard(incorrectCard);
-        paymentPage.allFieldErrorVisible();
+        paymentPage.checkAllFieldErrorVisible();
         paymentPage.cleanCardFields();
         DataCard correctCard = DataHelper.getApprovedCard();
         paymentPage.fillInCard(correctCard);
@@ -109,7 +109,7 @@ class TravelBuyTest {
         val paymentOrderId = DataHelper.DataSQL.getOrderPaymentId();
         assertEquals(paymentId, paymentOrderId);
 
-        paymentPage.allFieldErrorInvisible(); // issue
+        paymentPage.checkAllFieldErrorInvisible(); // issue
     }
 
     //Tests with wrong field forms
@@ -227,7 +227,7 @@ class TravelBuyTest {
     void shouldCreditEmptyForm() throws InterruptedException {
         mainPage.openCreditPage();
         paymentPage.clickProceedButton();
-        paymentPage.allFieldErrorVisible();
+        paymentPage.checkAllFieldErrorVisible();
 
         sleep(10000);
         val creditOrderId = DataHelper.DataSQL.getOrderCreditId();
