@@ -8,10 +8,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DataSQL {
-    private static String url = "jdbc:mysql://192.168.99.100:3306/app";
-    //        private static String url = "jdbc:postgresql://192.168.99.100:5432/app";
-    private static String user = "app";
-    private static String password = "pass";
+    private static String url = System.getProperty("datasource.url");
+    private static String user = System.getProperty("datasource.username");
+    private static String password = System.getProperty("datasource.password");
+
     private static Connection conn;
     private static QueryRunner runner = new QueryRunner();
 

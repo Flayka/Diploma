@@ -1,13 +1,7 @@
 package ru.netology.web.data;
 
 import com.github.javafaker.Faker;
-import lombok.Value;
-import lombok.val;
-import org.apache.commons.dbutils.QueryRunner;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.time.Year;
 
 public class DataHelper {
@@ -84,10 +78,4 @@ public class DataHelper {
         dataCard.setCardCVC(String.valueOf(faker.number().numberBetween(1, 99)));
         return dataCard;
     }
-
-//    @Value
-//    public static class DataSQL {
-//
-//
-//    }
 }

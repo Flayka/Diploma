@@ -51,11 +51,11 @@ public class PaymentPage {
         proceedButton.click();
     }
 
-    public void showNotificationApprove() {
+    public void waitNotificationApprove() {
         notificationApprove.waitUntil(visible, 15000);
     }
 
-    public void showNotificationDecline() {
+    public void waitNotificationDecline() {
         notificationDecline.waitUntil(visible, 15000);
     }
 

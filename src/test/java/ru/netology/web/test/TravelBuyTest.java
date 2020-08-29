@@ -14,7 +14,6 @@ import ru.netology.web.pages.MainPage;
 import ru.netology.web.pages.PaymentPage;
 
 import static com.codeborne.selenide.Selenide.open;
-import static java.lang.Thread.sleep;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -37,18 +36,17 @@ class TravelBuyTest {
     @AfterAll
     static void CleanAllTables() {
         SelenideLogger.removeListener("allure");
-        DataSQL.cleanTables();
+ //       DataSQL.cleanTables();
     }
 
     //PayTests
     @Test
-    void shouldPayApprovedCard() throws InterruptedException {
+    void shouldPayApprovedCard() {
         mainPage.openPayPage();
         DataCard card = DataHelper.getApprovedCard();
         paymentPage.fillInCard(card);
-        paymentPage.showNotificationApprove();
+        paymentPage.waitNotificationApprove();
 
-        sleep(10000);
         val actual = DataSQL.getPaymentStatus();
         assertEquals(approvedCard, actual);//
 
@@ -58,13 +56,12 @@ class TravelBuyTest {
     }
 
     @Test
-    void shouldPayDeclinedCard() throws InterruptedException {
+    void shouldPayDeclinedCard() {
         mainPage.openPayPage();
         DataCard card = DataHelper.getDeclinedCard();
         paymentPage.fillInCard(card);
-        paymentPage.showNotificationDecline(); //Issue
+        paymentPage.waitNotificationDecline(); //Issue
 
-        sleep(10000);
         val actual = DataSQL.getPaymentStatus();
         assertEquals(declinedCard, actual);
 
@@ -78,9 +75,9 @@ class TravelBuyTest {
         mainPage.openPayPage();
         DataCard card = DataHelper.getWrongCard();
         paymentPage.fillInCard(card);
-        paymentPage.showNotificationDecline();
+        paymentPage.waitNotificationDecline(); //Issue?
 
-        val paymentOrderId = DataSQL.getOrderPaymentId();//
+        val paymentOrderId = DataSQL.getOrderPaymentId();
         assertNull(paymentOrderId);
     }
 
@@ -95,7 +92,7 @@ class TravelBuyTest {
     }
 
     @Test
-    void shouldRefillFieldsByCorrectCard() throws InterruptedException {
+    void shouldRefillFieldsByCorrectCard() {
         mainPage.openPayPage();
         DataCard incorrectCard = DataHelper.getUnrealCard();
         paymentPage.fillInIncorrectCard(incorrectCard);
@@ -103,9 +100,8 @@ class TravelBuyTest {
         paymentPage.cleanCardFields();
         DataCard correctCard = DataHelper.getApprovedCard();
         paymentPage.fillInCard(correctCard);
-        paymentPage.showNotificationApprove();
+        paymentPage.waitNotificationApprove();
 
-        sleep(10000);
         val paymentId = DataSQL.getPaymentId();
         val paymentOrderId = DataSQL.getOrderPaymentId();
         assertEquals(paymentId, paymentOrderId);
@@ -151,13 +147,13 @@ class TravelBuyTest {
     }
 
     @Test
-    void shouldPayOwnerErrorCard() throws InterruptedException {
+    void shouldPayOwnerErrorCard() {
         mainPage.openPayPage();
         DataCard card = DataHelper.getWrongOwnerCard();
         paymentPage.fillInCard(card);
         String actualError = paymentPage.checkCardOwnerError(); //Issue
         assertEquals("Неверный формат", actualError);
-        sleep(10000);
+
         val actual = DataSQL.getPaymentStatus();
         assertNull(actual); //Issue
     }
@@ -182,13 +178,12 @@ class TravelBuyTest {
 
     //CreditTests
     @Test
-    void shouldCreditByApprovedCard() throws InterruptedException {
+    void shouldCreditByApprovedCard() {
         mainPage.openCreditPage();
         DataCard card = DataHelper.getApprovedCard();
         paymentPage.fillInCard(card);
-        paymentPage.showNotificationApprove();
+        paymentPage.waitNotificationApprove();
 
-        sleep(10000);
         val actual = DataSQL.getCreditStatus();
         assertEquals(approvedCard, actual);
 
@@ -198,13 +193,12 @@ class TravelBuyTest {
     }
 
     @Test
-    void shouldCreditDeclinedCard() throws InterruptedException {
+    void shouldCreditDeclinedCard() {
         mainPage.openCreditPage();
         DataCard card = DataHelper.getDeclinedCard();
         paymentPage.fillInCard(card);
-        paymentPage.showNotificationDecline(); //Issue
+        paymentPage.waitNotificationDecline(); //Issue
 
-        sleep(10000);
         val actual = DataSQL.getCreditStatus();
         assertEquals(declinedCard, actual);
         val creditId = DataSQL.getCreditId();
@@ -213,24 +207,22 @@ class TravelBuyTest {
     }
 
     @Test
-    void shouldCreditWrongCard() throws InterruptedException {
+    void shouldCreditWrongCard() {
         mainPage.openCreditPage();
         DataCard card = DataHelper.getWrongCard();
         paymentPage.fillInCard(card);
-        paymentPage.showNotificationDecline();
+        paymentPage.waitNotificationDecline();
 
-        sleep(10000);
         val creditOrderId = DataSQL.getOrderCreditId();
         assertNull(creditOrderId);
     }
 
     @Test
-    void shouldCreditEmptyForm() throws InterruptedException {
+    void shouldCreditEmptyForm() {
         mainPage.openCreditPage();
         paymentPage.clickProceedButton();
         paymentPage.checkAllFieldErrorVisible();
 
-        sleep(10000);
         val creditOrderId = DataSQL.getOrderCreditId();
         assertNull(creditOrderId);
     }
