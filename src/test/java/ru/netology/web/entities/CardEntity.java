@@ -1,4 +1,4 @@
-package ru.netology.web.data;
+package ru.netology.web.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DataCard {
+public class CardEntity {
     private String cardNumber;
     private String cardMonth;
     private String cardYear;

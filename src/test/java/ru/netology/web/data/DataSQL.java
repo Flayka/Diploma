@@ -12,10 +12,10 @@ public class DataSQL {
     private static String user = System.getProperty("datasource.username");
     private static String password = System.getProperty("datasource.password");
 
-    private static Connection conn;
     private static QueryRunner runner = new QueryRunner();
 
     public static Connection runConnection() {
+        Connection conn = null;
         try {
             conn = DriverManager.getConnection(url, user, password);
         } catch (SQLException e) {
@@ -41,7 +41,7 @@ public class DataSQL {
     }
 
     public static String getPaymentStatus() {
-        val paymentStatus = "SELECT status FROM payment_entity WHERE created >= DATE_SUB(NOW() , INTERVAL 1 MINUTE);";
+        val paymentStatus = "SELECT status FROM payment_entity WHERE created > DATE_SUB(NOW() , INTERVAL 15 SECOND);";
         try (
                 val conn = runConnection();
                 val countStmt = conn.createStatement();
@@ -59,7 +59,7 @@ public class DataSQL {
     }
 
     public static String getCreditStatus() {
-        val select = "SELECT status FROM credit_request_entity WHERE created >= DATE_SUB(NOW() , INTERVAL 1 MINUTE);";
+        val select = "SELECT status FROM credit_request_entity WHERE created > DATE_SUB(NOW() , INTERVAL 15 SECOND);";
         try (
                 val conn = runConnection();
                 val countStmt = conn.createStatement();

@@ -4,7 +4,7 @@ package ru.netology.web.pages;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.Keys;
-import ru.netology.web.data.DataCard;
+import ru.netology.web.entities.CardEntity;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.withText;
@@ -29,7 +29,7 @@ public class PaymentPage {
     private SelenideElement notificationApprove = $(withText("Операция одобрена Банком."));
     private SelenideElement notificationDecline = $(withText("Ошибка! Банк отказал в проведении операции."));
 
-    public void fillInCard(DataCard card) {
+    public void fillInCard(CardEntity card) {
         cardNumber.setValue(card.getCardNumber());
         cardMonth.setValue(card.getCardMonth());
         cardYear.setValue(card.getCardYear());
@@ -38,7 +38,7 @@ public class PaymentPage {
         proceedButton.click();
     }
 
-    public void fillInIncorrectCard(DataCard card) {
+    public void fillInIncorrectCard(CardEntity card) {
         cardNumber.setValue("1");
         cardMonth.setValue("2");
         cardYear.setValue("3");

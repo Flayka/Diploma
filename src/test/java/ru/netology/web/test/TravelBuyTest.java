@@ -7,7 +7,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.netology.web.data.DataCard;
+import ru.netology.web.entities.CardEntity;
 import ru.netology.web.data.DataHelper;
 import ru.netology.web.data.DataSQL;
 import ru.netology.web.pages.MainPage;
@@ -36,14 +36,14 @@ class TravelBuyTest {
     @AfterAll
     static void CleanAllTables() {
         SelenideLogger.removeListener("allure");
- //       DataSQL.cleanTables();
+        DataSQL.cleanTables();
     }
 
     //PayTests
     @Test
     void shouldPayApprovedCard() {
         mainPage.openPayPage();
-        DataCard card = DataHelper.getApprovedCard();
+        CardEntity card = DataHelper.getApprovedCard();
         paymentPage.fillInCard(card);
         paymentPage.waitNotificationApprove();
 
@@ -58,7 +58,7 @@ class TravelBuyTest {
     @Test
     void shouldPayDeclinedCard() {
         mainPage.openPayPage();
-        DataCard card = DataHelper.getDeclinedCard();
+        CardEntity card = DataHelper.getDeclinedCard();
         paymentPage.fillInCard(card);
         paymentPage.waitNotificationDecline(); //Issue
 
@@ -73,9 +73,9 @@ class TravelBuyTest {
     @Test
     void shouldPayWrongCard() {
         mainPage.openPayPage();
-        DataCard card = DataHelper.getWrongCard();
+        CardEntity card = DataHelper.getWrongCard();
         paymentPage.fillInCard(card);
-        paymentPage.waitNotificationDecline(); //Issue?
+        paymentPage.waitNotificationDecline(); //Issue
 
         val paymentOrderId = DataSQL.getOrderPaymentId();
         assertNull(paymentOrderId);
@@ -94,11 +94,11 @@ class TravelBuyTest {
     @Test
     void shouldRefillFieldsByCorrectCard() {
         mainPage.openPayPage();
-        DataCard incorrectCard = DataHelper.getUnrealCard();
+        CardEntity incorrectCard = DataHelper.getUnrealCard();
         paymentPage.fillInIncorrectCard(incorrectCard);
         paymentPage.checkAllFieldErrorVisible();
         paymentPage.cleanCardFields();
-        DataCard correctCard = DataHelper.getApprovedCard();
+        CardEntity correctCard = DataHelper.getApprovedCard();
         paymentPage.fillInCard(correctCard);
         paymentPage.waitNotificationApprove();
 
@@ -113,7 +113,7 @@ class TravelBuyTest {
     @Test
     void shouldPayUnrealCard() {
         mainPage.openPayPage();
-        DataCard card = DataHelper.getUnrealCard();
+        CardEntity card = DataHelper.getUnrealCard();
         paymentPage.fillInCard(card);
         String actual = paymentPage.checkCardNumberError();
         assertEquals("Неверный формат", actual);
@@ -122,7 +122,7 @@ class TravelBuyTest {
     @Test
     void shouldPayMonthErrorCard() {
         mainPage.openPayPage();
-        DataCard card = DataHelper.getWrongMonthCard();
+        CardEntity card = DataHelper.getWrongMonthCard();
         paymentPage.fillInCard(card);
         String actual = paymentPage.checkCardMonthError();
         assertEquals("Неверно указан срок действия карты", actual);
@@ -131,7 +131,7 @@ class TravelBuyTest {
     @Test
     void shouldPayPastYearErrorCard() {
         mainPage.openPayPage();
-        DataCard card = DataHelper.getPastYearCard();
+        CardEntity card = DataHelper.getPastYearCard();
         paymentPage.fillInCard(card);
         String actual = paymentPage.checkCardYearError();
         assertEquals("Истёк срок действия карты", actual);
@@ -140,7 +140,7 @@ class TravelBuyTest {
     @Test
     void shouldPayFutureYearErrorCard() {
         mainPage.openPayPage();
-        DataCard card = DataHelper.getFutureYearCard();
+        CardEntity card = DataHelper.getFutureYearCard();
         paymentPage.fillInCard(card);
         String actual = paymentPage.checkCardYearError();
         assertEquals("Неверно указан срок действия карты", actual);
@@ -149,7 +149,7 @@ class TravelBuyTest {
     @Test
     void shouldPayOwnerErrorCard() {
         mainPage.openPayPage();
-        DataCard card = DataHelper.getWrongOwnerCard();
+        CardEntity card = DataHelper.getWrongOwnerCard();
         paymentPage.fillInCard(card);
         String actualError = paymentPage.checkCardOwnerError(); //Issue
         assertEquals("Неверный формат", actualError);
@@ -161,7 +161,7 @@ class TravelBuyTest {
     @Test
     void shouldPayEmptyOwnerCard() {
         mainPage.openPayPage();
-        DataCard card = DataHelper.getEmptyOwnerCard();
+        CardEntity card = DataHelper.getEmptyOwnerCard();
         paymentPage.fillInCard(card);
         String actual = paymentPage.checkCardOwnerError();
         assertEquals("Поле обязательно для заполнения", actual);
@@ -170,7 +170,7 @@ class TravelBuyTest {
     @Test
     void shouldPayCVCErrorCard() {
         mainPage.openPayPage();
-        DataCard card = DataHelper.getWrongCVCCard();
+        CardEntity card = DataHelper.getWrongCVCCard();
         paymentPage.fillInCard(card);
         String actual = paymentPage.checkCardCVCError();
         assertEquals("Неверный формат", actual);
@@ -180,7 +180,7 @@ class TravelBuyTest {
     @Test
     void shouldCreditByApprovedCard() {
         mainPage.openCreditPage();
-        DataCard card = DataHelper.getApprovedCard();
+        CardEntity card = DataHelper.getApprovedCard();
         paymentPage.fillInCard(card);
         paymentPage.waitNotificationApprove();
 
@@ -195,7 +195,7 @@ class TravelBuyTest {
     @Test
     void shouldCreditDeclinedCard() {
         mainPage.openCreditPage();
-        DataCard card = DataHelper.getDeclinedCard();
+        CardEntity card = DataHelper.getDeclinedCard();
         paymentPage.fillInCard(card);
         paymentPage.waitNotificationDecline(); //Issue
 
@@ -209,7 +209,7 @@ class TravelBuyTest {
     @Test
     void shouldCreditWrongCard() {
         mainPage.openCreditPage();
-        DataCard card = DataHelper.getWrongCard();
+        CardEntity card = DataHelper.getWrongCard();
         paymentPage.fillInCard(card);
         paymentPage.waitNotificationDecline();
 

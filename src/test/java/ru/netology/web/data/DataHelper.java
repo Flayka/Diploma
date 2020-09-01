@@ -1,6 +1,7 @@
 package ru.netology.web.data;
 
 import com.github.javafaker.Faker;
+import ru.netology.web.entities.CardEntity;
 
 import java.time.Year;
 
@@ -16,66 +17,66 @@ public class DataHelper {
     private DataHelper() {
     }
 
-    public static DataCard fillCardInfo(String cardNumber) {
+    public static CardEntity fillCardInfo(String cardNumber) {
         String month = String.format("%02d", faker.number().numberBetween(1, 12));
         int currentYear = Year.now().getValue() % 100;
         String year = String.valueOf(faker.number().numberBetween(currentYear + 1, currentYear + 5));
         String owner = faker.name().name();
         String cvc = String.format("%03d", faker.number().numberBetween(1, 999));
-        return new DataCard(cardNumber, month, year, owner, cvc);
+        return new CardEntity(cardNumber, month, year, owner, cvc);
     }
 
-    public static DataCard getApprovedCard() {
+    public static CardEntity getApprovedCard() {
         return fillCardInfo(approvedCardNumber);
     }
 
-    public static DataCard getDeclinedCard() {
+    public static CardEntity getDeclinedCard() {
         return fillCardInfo(declinedCardNumber);
     }
 
-    public static DataCard getWrongCard() {
+    public static CardEntity getWrongCard() {
         return fillCardInfo(wrongCardNumber);
     }
 
-    public static DataCard getUnrealCard() {
+    public static CardEntity getUnrealCard() {
         return fillCardInfo(unrealCardNumber);
     }
 
-    public static DataCard getWrongMonthCard() {
-        DataCard dataCard = fillCardInfo(approvedCardNumber);
-        dataCard.setCardMonth(String.valueOf(faker.number().numberBetween(13, 99)));
-        return dataCard;
+    public static CardEntity getWrongMonthCard() {
+        CardEntity cardEntity = fillCardInfo(approvedCardNumber);
+        cardEntity.setCardMonth(String.valueOf(faker.number().numberBetween(13, 99)));
+        return cardEntity;
     }
 
-    public static DataCard getPastYearCard() {
-        DataCard dataCard = fillCardInfo(approvedCardNumber);
+    public static CardEntity getPastYearCard() {
+        CardEntity cardEntity = fillCardInfo(approvedCardNumber);
         int currentYear = Year.now().getValue() % 100;
-        dataCard.setCardYear(String.valueOf(faker.number().numberBetween(currentYear - 1, currentYear - 10)));
-        return dataCard;
+        cardEntity.setCardYear(String.valueOf(faker.number().numberBetween(currentYear - 1, currentYear - 10)));
+        return cardEntity;
     }
 
-    public static DataCard getFutureYearCard() {
-        DataCard dataCard = fillCardInfo(approvedCardNumber);
+    public static CardEntity getFutureYearCard() {
+        CardEntity cardEntity = fillCardInfo(approvedCardNumber);
         int currentYear = Year.now().getValue() % 100;
-        dataCard.setCardYear(String.valueOf(faker.number().numberBetween(currentYear + 6, currentYear + 15)));
-        return dataCard;
+        cardEntity.setCardYear(String.valueOf(faker.number().numberBetween(currentYear + 6, currentYear + 15)));
+        return cardEntity;
     }
 
-    public static DataCard getWrongOwnerCard() {
-        DataCard dataCard = fillCardInfo(approvedCardNumber);
-        dataCard.setCardOwner(faker.phoneNumber().cellPhone());
-        return dataCard;
+    public static CardEntity getWrongOwnerCard() {
+        CardEntity cardEntity = fillCardInfo(approvedCardNumber);
+        cardEntity.setCardOwner(faker.phoneNumber().cellPhone());
+        return cardEntity;
     }
 
-    public static DataCard getEmptyOwnerCard() {
-        DataCard dataCard = fillCardInfo(approvedCardNumber);
-        dataCard.setCardOwner("");
-        return dataCard;
+    public static CardEntity getEmptyOwnerCard() {
+        CardEntity cardEntity = fillCardInfo(approvedCardNumber);
+        cardEntity.setCardOwner("");
+        return cardEntity;
     }
 
-    public static DataCard getWrongCVCCard() {
-        DataCard dataCard = fillCardInfo(approvedCardNumber);
-        dataCard.setCardCVC(String.valueOf(faker.number().numberBetween(1, 99)));
-        return dataCard;
+    public static CardEntity getWrongCVCCard() {
+        CardEntity cardEntity = fillCardInfo(approvedCardNumber);
+        cardEntity.setCardCVC(String.valueOf(faker.number().numberBetween(1, 99)));
+        return cardEntity;
     }
 }
