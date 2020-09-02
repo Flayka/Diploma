@@ -3,7 +3,10 @@ package ru.netology.web.test;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import lombok.val;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import ru.netology.web.data.DataHelper;
 import ru.netology.web.data.DataSQL;
 import ru.netology.web.entities.CardEntity;
@@ -11,7 +14,6 @@ import ru.netology.web.pages.MainPage;
 import ru.netology.web.pages.PaymentPage;
 
 import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.Selenide.sleep;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -31,14 +33,10 @@ class TravelBuyTest {
         open(System.getProperty("sut.url"));
     }
 
-    @AfterEach
-    void CleanAllTables() {
-        DataSQL.cleanTables();}
-
     @AfterAll
     static void AllureReport() {
         SelenideLogger.removeListener("allure");
- //       DataSQL.cleanTables();
+        DataSQL.cleanTables();
     }
 
     //PayTests
